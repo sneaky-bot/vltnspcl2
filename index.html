@@ -223,7 +223,7 @@ button:hover {
 
 <button id="surpriseBtn">💋 Surprise</button>
 
-<audio id="bgMusic" loop>
+<audio id="bgMusic">
     <source src="song.mp3" type="audio/mpeg">
 </audio>
 
@@ -334,7 +334,7 @@ music.play().catch(() => {});
 setTimeout(() => {
     music.pause();
     music.currentTime = 0;
-}, 25000);
+}, 15000);
 
 musicPlayed = true;
 }
@@ -393,5 +393,6 @@ setTimeout(() => { emoji.remove(); }, 4000);
 
 </body>
 </html>
+
 
 
