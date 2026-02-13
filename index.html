@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Georgia', serif;
+    background: radial-gradient(circle at center, #1a1a1a, #0f0f0f 70%);
+    color: #f0e6d2;
+    text-align: center;
+    overflow-x: hidden;
+}
+
+/* Sections */
+.section {
+    padding: 100px 20px;
+}
+
+button {
+    padding: 12px 25px;
+    border: 1px solid #c6a85b;
+    border-radius: 25px;
+    background: transparent;
+    color: #c6a85b;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.4s;
+    letter-spacing: 1px;
+}
+
+button:hover {
+    background: #c6a85b;
+    color: #1a1a1a;
+}
+
+.hidden { display: none; }
+
+/* Surprise Button */
+#surpriseBtn {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 15px 18px;
+    background: #c6a85b;
+    color: #1a1a1a;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    z-index: 9999;
+}
+
+/* Emoji Shower */
+.kiss {
+    position: fixed;
+    top: -120px;
+    font-size: 85px;
+    pointer-events: none;
+    animation: fall linear forwards;
+}
+
+@keyframes fall {
+    0% { transform: translateY(-120px) rotate(0deg); }
+    100% { transform: translateY(120vh) rotate(360deg); }
+}
+
+/* BOOK */
+.book-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 70px;
+    perspective: 3000px;
+}
+
+.book {
+    position: relative;
+    width: 700px;
+    height: 460px;
+}
+
+.left-side {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    left: 0;
+    background: #efe2c5;
+    border-radius: 10px 0 0 10px;
+    box-shadow: inset -15px 0 25px rgba(0,0,0,0.25);
+}
+
+.page {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    right: 0;
+    transform-origin: left;
+    transform-style: preserve-3d;
+    transition: transform 1.2s ease;
+    cursor: pointer;
+}
+
+.page-front,
+.page-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 0 10px 10px 0;
+}
+
+.cover-front {
+    background: linear-gradient(145deg, #6e4b2a, #4a2f18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.cover-front img {
+    width: 90%;
+    height: 80%;
+    object-fit: cover;
+    border: 2px solid #c6a85b;
+}
+
+.cover-back {
+    background: linear-gradient(145deg, #6e4b2a, #4a2f18);
+    transform: rotateY(180deg);
+}
+
+.paper-front {
+    background: #efe2c5;
+    padding: 60px;
+    color: #3e2a1d;
+    font-size: 20px;
+    line-height: 1.8;
+    font-style: italic;
+}
+
+.paper-back {
+    background: #efe2c5;
+    transform: rotateY(180deg);
+}
+
+/* YOU ZONE */
+.you-zone h2 {
+    font-size: 36px;
+    color: #d4af37;
+    margin-bottom: 50px;
+}
+
+.sub-title {
+    margin-top: 70px;
+    font-size: 26px;
+    color: #c6a85b;
+}
+
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 40px;
+    max-width: 1200px;
+    margin: 50px auto;
+}
+
+.photo-frame {
+    padding: 12px;
+    background: #efe2c5;
+    border: 3px solid #c6a85b;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    opacity: 0;
+    transform: translateY(30px);
+    transition: 1s;
+}
+
+.photo-frame img {
+    width: 100%;
+}
+
+.photo-frame.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.lilies {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-bottom: 80px;
+}
+
+.lilies img {
+    width: 260px;
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    50% { transform: translateY(-20px); }
+}
+
+.video-section {
+    margin-top: 70px;
+    display: flex;
+    justify-content: center;
+}
+
+.video-section video {
+    width: 480px;
+    max-width: 90%;
+    border: 3px solid #c6a85b;
+    border-radius: 12px;
+}
+</style>
+</head>
+
+<body>
+
+<button id="surpriseBtn">💋 Surprise</button>
+
+<audio id="bgMusic" loop>
+    <source src="song.mp3" type="audio/mpeg">
+</audio>
+
+<div class="section">
+    <h1>To My VALENTINE For This Year And All The Years To Come 🤎</h1>
+    <button onclick="openBook()">Open The Book</button>
+</div>
+
+<div class="section hidden" id="bookSection">
+<div class="book-wrapper">
+<div class="book">
+
+<div class="left-side"></div>
+
+<div class="page" id="coverPage">
+<div class="page-front cover-front">
+<img src="cover.jpeg">
+</div>
+<div class="page-back cover-back"></div>
+</div>
+
+<div class="page" id="page1">
+<div class="page-front paper-front">
+MY LOVE,<br><br>
+From the moment you've entered my life everything feels softer and warmer<br><br>
+YOU ARE MY EVERYTHINGGG!!!!,I WNA SPEND ALL MY LIVES WITH YOU<br><br>.
+</div>
+<div class="page-back paper-back"></div>
+</div>
+
+<div class="page" id="page2">
+<div class="page-front paper-front">
+you are not just the part of the story-you are the most BEAUTIFUL chapter of it.
+I LOVEEEEE YOUUUUUU SOOOOO MUCHHHHHH!!!!!!
+</div>
+<div class="page-back paper-back"></div>
+</div>
+
+<div class="page" id="page3">
+<div class="page-front paper-front">
+I would search for you in every one of my lifetimes<br><br>
+YOUR HAND IS THE ONE I WNA HOLD WHEN IM ON MY DEATHBED<br><br>
+</div>
+<div class="page-back paper-back"></div>
+</div>
+
+</div>
+</div>
+</div>
+
+<div class="section hidden you-zone" id="youZone">
+
+<h2>The You Zone 🌸</h2>
+
+<div class="lilies">
+<img src="lily1.jpg">
+<img src="lily2.jpg">
+<img src="lily3.jpg">
+<img src="lily4.jpg">
+<img src="lily5.jpg">
+</div>
+
+<div class="sub-title">Her Moments</div>
+<div class="photo-grid">
+<div class="photo-frame"><img src="her1.jpeg"></div>
+<div class="photo-frame"><img src="her2.jpeg"></div>
+<div class="photo-frame"><img src="her3.jpeg"></div>
+<div class="photo-frame"><img src="her4.jpeg"></div>
+<div class="photo-frame"><img src="her5.jpeg"></div>
+</div>
+
+<div class="sub-title">Our Scenery 🌅</div>
+<div class="photo-grid">
+<div class="photo-frame"><img src="scenery1.jpg"></div>
+<div class="photo-frame"><img src="scenery2.jpg"></div>
+<div class="photo-frame"><img src="scenery3.jpg"></div>
+<div class="photo-frame"><img src="scenery4.jpg"></div>
+</div>
+
+<div class="sub-title">A Memory In Motion 🎥</div>
+<div class="video-section">
+<video controls>
+<source src="memory.mp4" type="video/mp4">
+</video>
+</div>
+
+</div>
+
+<script>
+let current = 0;
+const music = document.getElementById("bgMusic");
+
+const pages = [
+coverPage,
+page1,
+page2,
+page3
+];
+
+function openBook() {
+document.getElementById("bookSection").classList.remove("hidden");
+music.play().catch(() => {});
+}
+
+pages.forEach((page, index) => {
+page.style.zIndex = pages.length - index;
+
+page.addEventListener("click", () => {
+if (current === index) {
+page.style.transform = "rotateY(-180deg)";
+current++;
+
+if (current === pages.length) {
+setTimeout(closeBook, 1200);
+}
+}
+});
+});
+
+function closeBook() {
+document.getElementById("youZone").classList.remove("hidden");
+document.getElementById("youZone").scrollIntoView({ behavior: "smooth" });
+
+document.querySelectorAll(".photo-frame").forEach((frame, i) => {
+setTimeout(() => frame.classList.add("show"), i * 200);
+});
+}
+
+/* SURPRISE EMOJI SHOWER */
+let showerStarted = false;
+
+document.getElementById("surpriseBtn").addEventListener("click", function () {
+
+if (showerStarted) return;
+showerStarted = true;
+
+setInterval(function () {
+
+const emojis = ["💋","❤️","💖","💕","💘","💞"];
+
+const emoji = document.createElement("div");
+emoji.classList.add("kiss");
+
+emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+emoji.style.left = Math.random() * window.innerWidth + "px";
+emoji.style.animationDuration = (Math.random() * 2 + 2) + "s";
+
+document.body.appendChild(emoji);
+
+setTimeout(() => { emoji.remove(); }, 4000);
+
+}, 40);
+
+});
+</script>
+
+</body>
+</html>
