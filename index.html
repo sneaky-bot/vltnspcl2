@@ -326,19 +326,20 @@ page3
 let musicPlayed = false;
 
 function openBook() {
-if (musicPlayed) return;
 
 document.getElementById("bookSection").classList.remove("hidden");
+
+if (musicPlayed) return;
+
 music.play().catch(() => {});
 
-music.addEventListener("timeupdate", function stopMusic() {
-    if (music.currentTime >= 15) {
-        music.pause();
-        music.currentTime = 0;
-        music.removeEventListener("timeupdate", stopMusic);
-        musicPlayed = true;
-    }
-});
+setTimeout(() => {
+    music.pause();
+    music.currentTime = 0;
+    musicPlayed = true;
+}, 15000);
+
+}
 
 pages.forEach((page, index) => {
 page.style.zIndex = pages.length - index;
@@ -394,6 +395,7 @@ setTimeout(() => { emoji.remove(); }, 4000);
 
 </body>
 </html>
+
 
 
 
