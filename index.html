@@ -323,9 +323,20 @@ page2,
 page3
 ];
 
+let musicPlayed = false;
+
 function openBook() {
+if (musicPlayed) return;
+
 document.getElementById("bookSection").classList.remove("hidden");
 music.play().catch(() => {});
+
+setTimeout(() => {
+    music.pause();
+    music.currentTime = 0;
+}, 25000);
+
+musicPlayed = true;
 }
 
 pages.forEach((page, index) => {
@@ -382,3 +393,4 @@ setTimeout(() => { emoji.remove(); }, 4000);
 
 </body>
 </html>
+
